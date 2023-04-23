@@ -12,9 +12,11 @@ import unittest
 
 
 class TestMul(unittest.TestCase):
-    def test_mul_2(self):    # when we write any test case test_ is mandatory
+    def test_mul_2(self):  # when we write any test case test_ is mandatory
         result = mul(2)
-        self.assertEqual(result, 20)  # assertEqual compares actual value with expected value
+        self.assertEqual(
+            result, 20
+        )  # assertEqual compares actual value with expected value
         self.assertNotEqual(result, [23, 34])
 
     def test_mul_5(self):
