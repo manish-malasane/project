@@ -20,7 +20,8 @@ class UserManager(BaseUserManager):  # customizing default UserManager class
 
         # using built-in functionality to normalize the email
         user = self.model(email=self.normalize_email(email), **extra_fields)
-        user.set_password(password)  # using built-in functionality to set user password
+        # using built-in functionality to set user password
+        user.set_password(password)
         user.save(
             using=self._db
         )  # to save user when we are interacting with multiple databases
@@ -40,8 +41,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    # whatever ORM queries we run
+    # all goes through these objects attribute User.objects.get()
     objects = (
         UserManager()
-    )  # whatever ORM queries we run all goes through these objects attribute User.objects.get()
+    )
 
-    USERNAME_FIELD = "email"  # to define new USERNAME_FIELD in custom user model
+    # to define new USERNAME_FIELD in custom user model
+    USERNAME_FIELD = "email"
