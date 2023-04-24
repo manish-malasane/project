@@ -130,4 +130,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # when we customize default user model after that we have to set our custom user model to default user model
 # for that we have to do this
+# https://docs.djangoproject.com/en/4.2/topics/auth/customizing/
 AUTH_USER_MODEL = "core.user"
