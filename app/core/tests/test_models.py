@@ -1,10 +1,10 @@
 from django.test import TestCase
+
 # from ..models import User
 from django.contrib.auth import get_user_model
 
 
 class TestModel(TestCase):
-
     def random(self):
         return "Python"
 
@@ -29,8 +29,7 @@ class TestModel(TestCase):
         # user = User.objects.create_user(email=email,
         #                                 password=password)
 
-        user = get_user_model().objects.create_user(email=email,
-                                                    password=password)
+        user = get_user_model().objects.create_user(email=email, password=password)
 
         # `user.email` is an expected email and `email` is an actual email.
         self.assertEqual(user.email, email)
@@ -38,8 +37,8 @@ class TestModel(TestCase):
 
     def test_new_user_email_normalized(self):
         """
-              Test for normalization of email if user
-              made mistake while entering the email
+        Test for normalization of email if user
+        made mistake while entering the email
         """
         password = "admin"
         emails = [
@@ -55,14 +54,13 @@ class TestModel(TestCase):
 
     def test_new_user_without_email_raises_error(self):
         """
-                Test for creation of user who is trying
-                to create account without email-address
-                """
+        Test for creation of user who is trying
+        to create account without email-address
+        """
         # 1ST SCENARIO
-        self.assertRaises(ValueError,
-                          get_user_model().objects.create_user,
-                          "",
-                          "password")
+        self.assertRaises(
+            ValueError, get_user_model().objects.create_user, "", "password"
+        )
 
         # WE CAN DO EITHER 1ST SCENARIO OR 2ND SCENARIO
 
@@ -76,8 +74,7 @@ class TestModel(TestCase):
         """
         email = "email@gmail.com"
         password = "password"
-        user = get_user_model().objects.create_superuser(email=email,
-                                                         password=password)
+        user = get_user_model().objects.create_superuser(email=email, password=password)
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
