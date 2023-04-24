@@ -7,8 +7,7 @@ class TestAdminSite(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
-            email="australia@gmail.com",
-            password="pass@123"
+            email="australia@gmail.com", password="pass@123"
         )
 
         # alternate way of login but we use force login
@@ -20,8 +19,7 @@ class TestAdminSite(TestCase):
 
         self.client.force_login(self.admin_user)
         self.user = get_user_model().objects.create_user(
-            email="steve@gmail.com",
-            password="pass@123"
+            email="steve@gmail.com", password="pass@123"
         )
 
     def test_user_list(self):
@@ -63,4 +61,3 @@ class TestAdminSite(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertContains(res, self.user.email)
         self.assertContains(res, self.user.name)
-
