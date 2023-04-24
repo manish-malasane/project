@@ -44,9 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # whatever ORM queries we run
     # all goes through these objects attribute User.objects.get()
-    objects = (
-        UserManager()
-    )
+    objects = UserManager()
 
     # to define new USERNAME_FIELD in custom user model
     USERNAME_FIELD = "email"
