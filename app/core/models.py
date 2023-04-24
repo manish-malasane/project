@@ -19,6 +19,7 @@ class UserManager(BaseUserManager):  # customizing default UserManager class
             raise ValueError("Email is Must for user")
 
         # using built-in functionality to normalize the email
+        # with `self.model` we are already associated with default user model
         user = self.model(email=self.normalize_email(email), **extra_fields)
         # using built-in functionality to set user password
         user.set_password(password)
