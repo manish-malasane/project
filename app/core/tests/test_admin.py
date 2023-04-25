@@ -23,6 +23,12 @@ class TestAdminSite(TestCase):
         )
 
     def test_user_list(self):
+        """
+        # TODO (TOPIC - reversing admin URLs)
+        # refer
+        # https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#reversing-admin-urls
+        # Also known as `named URLs`
+        """
         url = reverse("admin:core_user_changelist")
         res = self.client.get(url)
 
