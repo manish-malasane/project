@@ -18,9 +18,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserAdmin(BaseUserAdmin):
+
+    # This is for on what basis we want our user list
     ordering = ("id",)
+
+    # This is for which fields we want to display on admin-page
     list_display = ("email", "name")
 
+    # This is for which fields we want on django admin site when we try to edit the user
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (_("Personal Information"), {"fields": ("name",)}),
@@ -28,8 +33,10 @@ class UserAdmin(BaseUserAdmin):
         (_("Important Dates"), {"fields": ("last_login",)}),
     )
 
+    # This is for which fields we want only in read-only format
     readonly_fields = ["last_login"]
 
+    #  This directive is for which fields we want when creating a new user
     add_fieldsets = (
         (
             None,
