@@ -18,7 +18,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserAdmin(BaseUserAdmin):
-
     # This is for on what basis we want our user list
     ordering = ("id",)
 
