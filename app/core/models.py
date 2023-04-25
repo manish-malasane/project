@@ -29,6 +29,7 @@ class UserManager(BaseUserManager):  # customizing default UserManager class
         return user
 
     def create_superuser(self, email, password):  # to create superuser
+        """https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#writing-a-manager-for-a-custom-user-model"""
         user = self.create_user(email, password)
         user.is_staff = True
         user.is_superuser = True
