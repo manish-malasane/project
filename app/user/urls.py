@@ -7,9 +7,9 @@ URL mapping for user-API
 """
 
 from django.urls import path
-from . views import CreateUserView
+from . import views
 
 urlpatterns = [
-    path("create/", CreateUserView.as_view(), name="create"),
-
+    path("create/", views.CreateUserView.as_view(), name="create"),
+    path("token/", views.CreateTokenView.as_view(), name="token"),
 ]
