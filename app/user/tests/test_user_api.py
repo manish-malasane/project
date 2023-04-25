@@ -11,7 +11,7 @@ Tests the user-API
 """
 
 from rest_framework.test import APITestCase, APIClient  # Either this
-from django.test import TestCase, Client                # OR this both same
+from django.test import TestCase, Client  # OR this both same
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 
@@ -29,9 +29,7 @@ class TestsPublicUserAPI(TestCase):
         """
         Return user
         """
-        return get_user_model().objects.create_user(
-            **params
-        )
+        return get_user_model().objects.create_user(**params)
 
     def setUp(self) -> None:
         """
@@ -49,11 +47,10 @@ class TestsPublicUserAPI(TestCase):
         payload = {
             "email": "nathan5@gmail.com",
             "password": "qwerty@123",
-            "name": "Nathan"
+            "name": "Nathan",
         }
 
-        res = self.client.post(CREATE_USER_URL,
-                               payload)
+        res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, 201)
 
@@ -62,11 +59,7 @@ class TestsPublicUserAPI(TestCase):
         Test error return if password is less than 5 characters
         """
 
-        payload = {
-            "email": "nathan5@gmail.com",
-            "password": "qw",
-            "name": "Nathan"
-        }
+        payload = {"email": "nathan5@gmail.com", "password": "qw", "name": "Nathan"}
 
         res = self.client.post(CREATE_USER_URL, payload)
         self.assertEqual(res.status_code, 400)
@@ -79,13 +72,12 @@ class TestsPublicUserAPI(TestCase):
         payload = {
             "email": "nathan5@gmail.com",
             "password": "qwerty@123",
-            "name": "Nathan"
+            "name": "Nathan",
         }
 
         self.create_user(**payload)  # creating user with payload
 
         # After creating user again try to create user on the server with same payload so, we will get 400
-        res = self.client.post(CREATE_USER_URL,
-                               payload)
+        res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, 400)
