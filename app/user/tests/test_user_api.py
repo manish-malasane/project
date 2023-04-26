@@ -3,6 +3,9 @@ Tests the user-API
 
 - Endpoints
 - 1) HTTP POST - /api/user/create/
+- 2) HTTP POST - /api/user/token/   (PublicUserAPI)
+
+- GET, PUT, PATCH - /api/user/me/ For valid credentials (PrivateUserAPI)
 
 
 - Types of endpoints based on authorization
@@ -150,3 +153,63 @@ class TestsPublicUserAPI(TestCase):
         res = self.client.post(TOKEN_URL, payload)
         self.assertNotIn("token", res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class TestPrivateUserAPI(TestCase):
+    """
+    Test API requests which require authentication
+    """
+
+    @staticmethod
+    def create_user(**params):
+        return get_user_model().objects.create_user(**params)
+
+    def setUp(self) -> None:
+        self.client = APIClient()
+
+        self.user = self.create_user(
+            email="rahane@gmail.com", password="qwert@123", name="Rahane"
+        )
+
+        # We use force authenticate function for setting authentication flag as `True`
+        # Wee don't need to create taken and authenticate each user under each test case
+        # So we handled authentication by `force_authentication`
+        # We don't need to create token and pass authorization header in request if `force_authenticate` is used
+        # TODO - refer
+        # https://www.django-rest-framework.org/api-guide/testing/#forcing-authentication
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_user_profile(self):
+        """
+        Test retrieving user info with valid token
+        """
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, {"name": self.user.name, "email": self.user.email})
+
+    def test_update_user_profile(self):
+        """
+        Test update user profile for an authenticated user
+        """
+        payload = {"email": "rohit@gmail.com", "name": "rohit sharma"}
+        res = self.client.patch(ME_URL, payload)
+
+        # To refresh the user old data with new data
+        # whenever we hit any update request we have to do t
+        # These method update new data with old data from database
+        self.user.refresh_from_db()
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(self.user.name, payload.get("name"))
+        self.assertEqual(self.user.email, payload.get("email"))
+
+    def test_post_me_not_allowed(self):
+        """
+        Test POST-HTTP request is not allowed for
+        `/api/user/me/`
+        """
+
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
