@@ -12,11 +12,16 @@ Tests the user-API
 
 from rest_framework.test import APITestCase, APIClient  # Either this
 from django.test import TestCase, Client  # OR this both same
-from django.shortcuts import reverse
-from django.contrib.auth import get_user_model
+from django.shortcuts import reverse  # getting url associated with view
+from django.contrib.auth import get_user_model  # django user model
+from rest_framework import (
+    status,
+)  # getting Http status codes instead of hard-coding like 200,201,400, etc
+
 
 # Named url of create view
 CREATE_USER_URL = reverse("create")
+TOKEN_URL = reverse("token")
 
 
 class TestsPublicUserAPI(TestCase):
@@ -81,3 +86,24 @@ class TestsPublicUserAPI(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, 400)
+
+    def test_create_token_for_user(self):
+        """
+        Test generates a token for valid user credentials
+        """
+
+        payload = {
+            "email": "manthan@gmail.com",
+            "password": "manthan",
+            "name": "Manthan",
+        }
+
+        # first create user with given payload
+        # and then try to hit post request
+        # If user with above payload credentials already exists no matter here we have to create user again for testcase
+        self.create_user(**payload)
+
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn("token", res.data)
