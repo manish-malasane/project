@@ -22,6 +22,7 @@ from rest_framework import (
 # Named url of create view
 CREATE_USER_URL = reverse("create")
 TOKEN_URL = reverse("token")
+ME_URL = reverse("me")
 
 
 class TestsPublicUserAPI(TestCase):
@@ -107,3 +108,45 @@ class TestsPublicUserAPI(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn("token", res.data)
+
+    def test_retrieve_user_unauthorised(self):
+        """
+        Test authentication is required for the user
+        """
+
+        res = self.client.post(ME_URL)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_token_bad_credentials(self):
+        """
+        Test return error if credentials are invalid
+        """
+        self.create_user(email="nathan@gmail.com", password="pass@123")
+        payload = {"email": "nathan@gmail.com", "password": "qwert@123"}
+
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertNotIn("token", res.data)
+
+    def test_create_token_email_not_found(self):
+        """
+        Test returns error if user n0t found with entered email
+        """
+        payload = {"email": "hughes@gmail.com", "password": "qwert@123"}
+
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn("token", res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_blank_password(self):
+        """
+        Test posting a blank password returns an error
+        """
+
+        payload = {"email": "steve@gmail.com", "password": ""}
+
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertNotIn("token", res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
