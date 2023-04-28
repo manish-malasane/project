@@ -1,44 +1,60 @@
 ### Project structure
 ```
-aggregproject1    (project root)
-├── Dockerfile
-├── README.md
-├── app
-│   ├── app
-│   │   ├── __init__.py
-│   │   ├── asgi.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   └── wsgi.py
-│   ├── core
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── management
-│   │   │   ├── __init__.py
-│   │   │   └── commands
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── models.py
-│   │   └── tests
-│   │       ├── __init__.py
-│   │       └── test_commands.py
-│   └── manage.py
-├── docker-compose.yml
-├── requirements.dev.txt
-├── requirements.txt
-
+- project                                (High-level project root directory)
+    - .github                            (Folder for CICD pipeline)
+        - workflows                      (Folder for CICD pipeline)
+            - checks.yml                 (Specified how CICD workflow will work in this project)
+    - app                                (Django project root directory)
+        - app                            (Djnago-project settings directory)
+            - __init__.py                (This file tells python it's a package)
+            - asgi.py                    (Project Instantiation)
+            - settings.py                (Project Settings)
+            - urls.py                    (Project URLS mapping)
+            - wsgi.py                    (Project Instantiation)
+        - core                           (Django-application-1)
+            - __init__.py
+            - management                 (Package responsible for django-admin custom commands)
+                - commands               (Package responsible for django-admin custom commands)
+                    - __init__.py
+                    - wait_for_db.py     (Django-admin custom command)
+            - migrations                 (Keep track of models.py)
+                - __init__.py 
+            - tests                      (Package for unit-testing)
+                - __init__.py
+                - test_admin.py          (Admin-page testing)
+                - test_commands.py       (Django-admin custom commands unit-testing)
+                - test_models.py         (Models testing)
+           - admin.py                    (Built-in admin GUI- (Customize-Admin-Page))
+           - apps.py                     (Application Configuration)
+           - models.py                   (Database Tables)
+        - job                            (Django-application-2)
+            - __init__.py
+            - tests
+                - __init__.py
+            - admin.py
+            - apps.py
+            - serializers.py             (Serializers which require for GenericViews)
+            - urls.py                    (Urls mapping associated with views)
+            - views.py                   (Business logic)
+        - user                           (Django-application-3)
+            - __init__.py
+            - tests
+                - __init__.py
+                - test_user_api.py       (unit-testing of user api)
+            - admin.py
+            - apps.py
+            - serializers.py
+            - urls.py
+            - views.py
+        - .flake8                        (Files to ignore for linting)
+        - manage.py                      (Django-admin command line utility)
+    - venv                               (Isolation of project)
+    - .dockerignore                      (Files to ignore by docker)
+    - .gitignore                         (Files to ignore by git)
+    - docker-compose.yml                 (Defined multiple services)
+    - Dockerfile                         (Helps to build an image)
+    - README.md                          (Documentation)
+    - requirements.txt                   (Dependencies for production environment)
+    - requirements.dev.txt               (Dependencies for developement environment)
+    - sample.py                          (Unit-testing Understandment)
 ```
-
-
-# STEPS
-
-1. Go and create account on hub.docker.com
-2. Complete docker installation 
-3. Login to Docker Hub and click on Account Setting → Security → New Access
-Token
-4. Copy and store the access token at some safe place.
-5. Go to https://github.com/prashant5nov/project1/ and fork project into your account
-6. With above step project repository will reflect into your account
-7. `git clone <https-url-copied-from-git-repo>`
-8. 
