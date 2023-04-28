@@ -112,7 +112,7 @@ class TestsPublicUserAPI(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn("token", res.data)
 
-    def test_retrieve_user_unauthorised(self):
+    def test_retrieve_user_unauthorized(self):
         """
         Test authentication is required for the user
         """
@@ -172,7 +172,7 @@ class TestPrivateUserAPI(TestCase):
         )
 
         # We use force authenticate function for setting authentication flag as `True`
-        # Wee don't need to create taken and authenticate each user under each test case
+        # Wee don't need to create token and authenticate each user under each test case
         # So we handled authentication by `force_authentication`
         # We don't need to create token and pass authorization header in request if `force_authenticate` is used
         # TODO - refer
