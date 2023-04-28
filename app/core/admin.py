@@ -3,6 +3,7 @@ from django.contrib import admin  # noqa
 # Register your models here.
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from core.models import JobTitle, JobDescription, Applicant, Portal
 
 # TODO
 # refer
@@ -56,3 +57,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(get_user_model(), UserAdmin)  # registering the custom user model
+admin.site.register(Portal)
+admin.site.register(JobDescription)
+admin.site.register(JobTitle)
+admin.site.register(Applicant)
