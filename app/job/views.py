@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets
-from .serializers import JobTitleSerializer, JobDescriptionSerializer
-from app.core.models import JobTitle
+from job.serializers import JobTitleSerializer, JobDescriptionSerializer
+from core.models import JobTitle
 
 
 class JobTitleViewSet(viewsets.ModelViewSet):
@@ -48,4 +48,11 @@ class JobTitleViewSet(viewsets.ModelViewSet):
         And if we need data in ascending order we do
                 order_by("id")
         """
-        return self.queryset.filter(user=self.request.user).order_by("-id")
+        return self.queryset
+
+    def perform_create(self, serializer_obj):
+        """
+        To create a JobTitle
+        """
+
+        serializer_obj.save(user=self.request.user)
