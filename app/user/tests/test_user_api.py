@@ -188,10 +188,11 @@ class TestPrivateUserAPI(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {"name": self.user.name, "email": self.user.email})
 
-    def test_update_user_profile(self):
+    def test_update_user_profile_partially(self):
         """
         Test update user profile for an authenticated user
         """
+
         payload = {"email": "rohit@gmail.com", "name": "rohit sharma"}
         res = self.client.patch(ME_URL, payload)
 
@@ -200,6 +201,18 @@ class TestPrivateUserAPI(TestCase):
         # These method update new data with old data from database
         self.user.refresh_from_db()
 
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(self.user.name, payload.get("name"))
+        self.assertEqual(self.user.email, payload.get("email"))
+
+    def test_update_complete_user_profile(self):
+        """
+        Test update user profile for an authenticated user
+        """
+
+        payload = {"email": "rohit@gmail.com", "name": "rohit sharma", "password": "qwert@123"}
+        res = self.client.put(ME_URL, payload)
+        self.user.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(self.user.name, payload.get("name"))
         self.assertEqual(self.user.email, payload.get("email"))
