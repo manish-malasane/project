@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from job.serializers import JobTitleSerializer, JobDescriptionSerializer
 from core.models import JobTitle
+from rest_framework import authentication, permissions
 
 
 class JobTitleViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,11 @@ class JobTitleViewSet(viewsets.ModelViewSet):
     # So now we Over-ride `serializer_class` & `queryset`
     # so we need to write methods corresponding to this
 
+    # To define any view as a private view we have to over-ride this two directives from parent classes
+    # This is for TokenAuthentication
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_serializer_class(self):
         """
         If user hits list(Plural) endpoint which is list so user get the list of JobTitles
@@ -32,7 +38,7 @@ class JobTitleViewSet(viewsets.ModelViewSet):
         Plural - localhost/api/job/job-title/
         Singular - localhost/api/job/job-title/15
         """
-
+        # self.action == "post", etc for all types of HTTP methods
         if self.action == "list":
             return JobTitleSerializer
 
