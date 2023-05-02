@@ -210,7 +210,11 @@ class TestPrivateUserAPI(TestCase):
         Test update user profile for an authenticated user
         """
 
-        payload = {"email": "rohit@gmail.com", "name": "rohit sharma", "password": "qwert@123"}
+        payload = {
+            "email": "rohit@gmail.com",
+            "name": "rohit sharma",
+            "password": "qwert@123",
+        }
         res = self.client.put(ME_URL, payload)
         self.user.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
