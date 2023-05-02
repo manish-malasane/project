@@ -6,11 +6,13 @@ from job import views
 # https://www.django-rest-framework.org/api-guide/routers/#defaultrouter
 from rest_framework.routers import DefaultRouter
 
-# This app_name will be utilized when we use reverse function for named urls
-app_name = "jobtitle"
 
 # Initialization of DefaultRouter
 router = DefaultRouter()
+
+# This app_name will be utilized when we use reverse function for named urls
+app_name = "jobtitle"
+
 
 # `jobtitles` is a basename
 # `jobtitles` is also a url `/api/job/jobtitles/`
@@ -27,5 +29,3 @@ urlpatterns = [path("", include(router.urls))]
 #     # {"post": "create"} and etc... for all types of HTTP methods
 #     path("jobtitle/", views.JobTitleViewSet.as_view({"get": "list"}), name="Titles")
 # ]
-
-
