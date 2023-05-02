@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
     "core",
-    "user",
+    "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
+    "user",
     "job",
 ]
 
@@ -136,3 +137,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # for that we have to do this
 # https://docs.djangoproject.com/en/4.2/topics/auth/customizing/
 AUTH_USER_MODEL = "core.user"
+
+
+# TODO - refer
+# https://drf-spectacular.readthedocs.io/en/latest/readme.html#installation
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
